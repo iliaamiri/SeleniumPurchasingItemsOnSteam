@@ -3,8 +3,9 @@ return [
     '/' => ['home','index'],
     '/auth_credentials/manage' => ['authCreds', 'index'],
     '/auth_credentials/manage/add' => ['authCreds', 'add'],
+    '/auth_credentials/manage/makeDefault/{@id}' => ['authCreds', 'makeDefault'],
     '/auth_credentials/manage/update' => ['authCreds', 'update'],
-    '/auth_credentials/manage/delete' => ['authCreds', 'delete'],
+    '/auth_credentials/manage/delete/{@id}' => ['authCreds', 'delete'],
 
 
     '/lab' => ['lab','start',[],''],
