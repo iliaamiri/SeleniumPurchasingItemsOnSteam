@@ -12,14 +12,14 @@ class Threads extends model
         parent::__construct();
     }
 
-    public function newThread($link, $account_name, $password, $maximum_purchases_of_founded_items, $float_min, $float_max, $paint_seed)
+    public function newThread($link, $account_name, $password, $float_min, $float_max, $paint_seed, $maximum_purchases_of_founded_items, $refresh_in)
     {
         $preg = new preg();
         if (!$preg->push($account_name,'username') OR !$preg->push($password,'password') OR !$preg->push_url($link) OR !$preg->push($maximum_purchases_of_founded_items, 'number')){
             return false;
         }
-        $sql = parent::$db->mdb_query("INSERT INTO witcher_threads (link, account_name,password,maximum_purchases_of_founded_items,float_min,loat_max,paint_seed) VALUES ('".$account_name."','".$password."','".$maximum_purchases_of_founded_items."',:float_min,:float_max,:paint_seed)", 0);
-        $sql->execute(array(':float_min' => $float_min,':float_max' => $float_max,':paint_seed' => $paint_seed));
+        $sql = parent::$db->mdb_query("INSERT INTO witcher_threads (link, account_name,password,float_min,float_max,paint_seed,maximum_purchases_of_founded_items,refresh_in) VALUES ('".$account_name."','".$password."','".$maximum_purchases_of_founded_items."',:float_min,:float_max,:paint_seed, :refresh_in)", 0);
+        $sql->execute(array(':float_min' => $float_min,':float_max' => $float_max,':paint_seed' => $paint_seed, ':refresh_in' => $refresh_in));
         return true;
     }
 

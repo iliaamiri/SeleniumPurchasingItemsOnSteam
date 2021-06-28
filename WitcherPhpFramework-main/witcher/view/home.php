@@ -117,7 +117,8 @@
             maximum_purchases_of_founded_items: $('#FormInputIntMaximumPurchases').val(),
             float_min: $('#FormInputIntFloatMin').val(),
             float_max: $('#FormInputIntFloatMax').val(),
-            paint_seed: $('#FormControlInputIntPaintSeed').val()
+            paint_seed: $('#FormControlInputIntPaintSeed').val(),
+            refresh_in: $('#FormInputRefreshIn').val()
         }, function( data ) {
             var result = jQuery.parseJSON( data );
             if (result.status){

@@ -9,6 +9,10 @@ define('HTTPS_SERVER',"http://steamsurferbot.ow");
 // CDNS
 define('MAIN_CDN',"http://steamsurferbot.ow");
 
+// ADD-ONs
+define('SELENIUM_SERVER', 'localhost');
+define('SELENIUM_SERVER_PORT', '4444');
+
 // PHP VERSION
 if (version_compare(PHP_VERSION, "5.4.7", "<")) {
     echo "<P style='text-align: center;margin-top: 100px;'><B>WITCHER FRAMEWORK</B> requires PHP version 5.4.7 or later.</P>";

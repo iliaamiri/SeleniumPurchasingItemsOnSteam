@@ -26,8 +26,7 @@ class seleniumStandardGateway extends module {
     }
 
     public function Run($invoice_key){
-        // gharar dadane invoice_key dade shode dar SESSION
-        $_SESSION['invoice_key'] = $invoice_key;
+
 
         // gereftane etelaAte gateway az tarighe api_key va gharar dadanesh dar $gateway
         $seleniumPaymentPanelModule = new seleniumPaymentPanelModule($invoice_key);

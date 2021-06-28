@@ -1,7 +1,6 @@
 <?php
 namespace Controller;
 
-
 use Core\controller;
 
 class selenium extends controller {
@@ -28,6 +27,9 @@ class selenium extends controller {
             if (!isset($_POST['paint_seed'])){
                 throw new \Exception(['status' => false, 'msg' => 'paint seed is Invalid']);
             }
+            if (!isset($_POST['refresh_in'])){
+                throw new \Exception(['status' => false, 'msg' => 'refresh in is Invalid']);
+            }
             $link = $_POST['link'];
             $account_name = $_POST['account_name'];
             $password = $_POST['password'];
@@ -35,10 +37,19 @@ class selenium extends controller {
             $float_min = $_POST['float_min'];
             $float_max = $_POST['float_max'];
             $paint_seed = $_POST['paint_seed'];
+            $refresh_in = $_POST['refresh_in'];
 
+            $threadsModel= new \Model\Threads();
+            $status = $threadsModel->newThread($link, $account_name, $password, $float_min, $float_max, $paint_seed, $maximum_purchases_of_founded_items, $refresh_in);
+
+
+
+            parent::setData(['status' => $status]);
         }catch (\Exception $exception){
-
+            parent::setData(json_decode($exception->getMessage()));
         }
+        parent::setViews(['initiate.php']);
+        parent::Show();
     }
 
     public function run($id){
