@@ -36,23 +36,23 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">URL - Link *</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Link">
+                    <label for="FormInputLink">URL - Link *</label>
+                    <input type="text" class="form-control" id="FormInputLink" placeholder="Link">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-5">
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Account Name *</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                    <label for="FormInputAccountName">Account Name *</label>
+                    <input type="text" class="form-control" id="FormInputAccountName"
                            placeholder="Your Account Name">
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Password *</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Your Password">
+                    <label for="FormInputPassword">Password *</label>
+                    <input type="text" class="form-control" id="FormInputPassword" placeholder="Your Password">
                 </div>
             </div>
             <div class="col-md-2">
@@ -65,20 +65,20 @@
         <div class="row">
             <div class="col-auto">
                 <div class="form-group">
-                    <label for="FormControlInputInt" title="Maximum Purchases of Founded Items *">Maximum Purchases of Founded Items *</label>
-                    <input type="number" class="form-control" id="FormControlInputInt" placeholder=">= 1">
+                    <label for="FormInputIntMaximumPurchases" title="Maximum Purchases of Founded Items *">Maximum Purchases of Founded Items *</label>
+                    <input type="number" class="form-control" id="FormInputIntMaximumPurchases" placeholder=">= 1">
                 </div>
             </div>
             <div class="col-auto">
                 <div class="form-group">
-                    <label for="FormControlInputIntFloatMin">Float - Minimum *</label>
-                    <input type="number" step="0.01" class="form-control" id="FormControlInputIntFloatMin" placeholder="Minimum">
+                    <label for="FormInputIntFloatMin">Float - Minimum *</label>
+                    <input type="number" step="0.01" class="form-control" id="FormInputIntFloatMin" placeholder="Minimum">
                 </div>
             </div>
             <div class="col-auto">
                 <div class="form-group">
-                    <label for="FormControlInputIntFloatMax">Float - Maximum *</label>
-                    <input type="number" step="0.01" class="form-control" id="FormControlInputIntFloatMax" placeholder="Maximum">
+                    <label for="FormInputIntFloatMax">Float - Maximum *</label>
+                    <input type="number" step="0.01" class="form-control" id="FormInputIntFloatMax" placeholder="Maximum">
                 </div>
             </div>
             <div class="col-auto">
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg">Run It</button>
+        <a href="#" class="btn btn-primary btn-lg" id="FormButtonRunIt">Run It</a>
     </form>
 </div>
 
@@ -106,5 +106,29 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $('#FormButtonRunIt').click(function () {
+        event.preventDefault();
+
+        $.post( "/selenium/initiate", {
+            link: $('#FormInputLink').val(),
+            account_name: $('#FormInputAccountName').val(),
+            password: $('#FormInputPassword').val(),
+            maximum_purchases_of_founded_items: $('#FormInputIntMaximumPurchases').val(),
+            float_min: $('#FormInputIntFloatMin').val(),
+            float_max: $('#FormInputIntFloatMax').val(),
+            paint_seed: $('#FormControlInputIntPaintSeed').val()
+        }, function( data ) {
+            var result = jQuery.parseJSON( data );
+            if (result.status){
+                alert("Done");
+                location.reload();
+            }else{
+                alert("Inputs contain invalid characters");
+                location.reload();
+            }
+        });
+    });
+</script>
 </body>
 </html>
