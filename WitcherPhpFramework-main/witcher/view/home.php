@@ -31,13 +31,13 @@
 
 <body>
 <div class="container">
-    <form>
+    <form target="_blank" method="POST" action="<?=HTTP_SERVER?>/selenium/initiate">
         <h1 style="color: #58a6ff">Steam Surfer Bot Panel</h1>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="FormInputLink">URL - Link *</label>
-                    <input type="text" class="form-control" id="FormInputLink" placeholder="Link">
+                    <input type="text" class="form-control" name="link" id="FormInputLink" placeholder="Link" required>
                 </div>
             </div>
         </div>
@@ -46,13 +46,13 @@
                 <div class="form-group">
                     <label for="FormInputAccountName">Account Name *</label>
                     <input type="text" class="form-control" id="FormInputAccountName"
-                           placeholder="Your Account Name">
+                           placeholder="Your Account Name" name="account_name" required>
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="FormInputPassword">Password *</label>
-                    <input type="text" class="form-control" id="FormInputPassword" placeholder="Your Password">
+                    <input type="text" class="form-control" name="password" id="FormInputPassword" placeholder="Your Password" required>
                 </div>
             </div>
             <div class="col-md-2">
@@ -66,35 +66,35 @@
             <div class="col-auto">
                 <div class="form-group">
                     <label for="FormInputIntMaximumPurchases" title="Maximum Purchases of Founded Items *">Maximum Purchases of Founded Items *</label>
-                    <input type="number" class="form-control" id="FormInputIntMaximumPurchases" placeholder=">= 1">
+                    <input type="number" class="form-control" name="maximum_purchases_of_founded_items" id="FormInputIntMaximumPurchases" placeholder=">= 1" required>
                 </div>
             </div>
             <div class="col-auto">
                 <div class="form-group">
                     <label for="FormInputIntFloatMin">Float - Minimum *</label>
-                    <input type="number" step="0.01" class="form-control" id="FormInputIntFloatMin" placeholder="Minimum">
+                    <input type="text"  class="form-control" name="float_min" id="FormInputIntFloatMin" placeholder="Minimum" required>
                 </div>
             </div>
             <div class="col-auto">
                 <div class="form-group">
                     <label for="FormInputIntFloatMax">Float - Maximum *</label>
-                    <input type="number" step="0.01" class="form-control" id="FormInputIntFloatMax" placeholder="Maximum">
+                    <input type="text"  class="form-control" name="float_max" id="FormInputIntFloatMax" placeholder="Maximum" required>
                 </div>
             </div>
             <div class="col-auto">
                 <div class="form-group">
                     <label for="FormControlInputInt">Refresh in (Optional)</label>
-                    <input type="number" class="form-control" id="FormInputRefreshIn" placeholder="In Seconds">
+                    <input type="number" class="form-control" id="FormInputRefreshIn" name="refresh_in" placeholder="In Seconds" >
                 </div>
             </div>
             <div class="col-auto">
                 <div class="form-group">
                     <label for="FormControlInputIntPaintSeed">Paint Seed (Optional)</label>
-                    <input type="text" class="form-control" id="FormControlInputIntPaintSeed" placeholder="Plaint Seed">
+                    <input type="text" class="form-control" name="paint_seed" ="FormControlInputIntPaintSeed" placeholder="Plaint Seed">
                 </div>
             </div>
         </div>
-        <a href="#" class="btn btn-primary btn-lg" id="FormButtonRunIt">Run It</a>
+        <input type="submit" class="btn btn-primary btn-lg" id="FormButtonRunIt" value="Run It" style="color: white!important;">
     </form>
 </div>
 
@@ -106,30 +106,5 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-    $('#FormButtonRunIt').click(function () {
-        event.preventDefault();
-
-        $.post( "/selenium/initiate", {
-            link: $('#FormInputLink').val(),
-            account_name: $('#FormInputAccountName').val(),
-            password: $('#FormInputPassword').val(),
-            maximum_purchases_of_founded_items: $('#FormInputIntMaximumPurchases').val(),
-            float_min: $('#FormInputIntFloatMin').val(),
-            float_max: $('#FormInputIntFloatMax').val(),
-            paint_seed: $('#FormControlInputIntPaintSeed').val(),
-            refresh_in: $('#FormInputRefreshIn').val()
-        }, function( data ) {
-            var result = jQuery.parseJSON( data );
-            if (result.status){
-                alert("Done");
-                location.reload();
-            }else{
-                alert("Inputs contain invalid characters");
-                location.reload();
-            }
-        });
-    });
-</script>
 </body>
 </html>

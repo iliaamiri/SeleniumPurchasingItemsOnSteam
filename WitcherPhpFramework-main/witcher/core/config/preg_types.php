@@ -5,6 +5,7 @@ return array(
     'password' => '/^[a-zA-Z0-9-_+?!$@#*\s]*$/i' ,
     'text' => '/^[a-zA-Z0-9آ-ی-.،,*:;()<>"+=@&?؟ !#\/_\s]*$/u' ,
     'number' => '/^[0-9]*$/u' ,
+    'double' => '/^[0-9.]*$/u' ,
     'ip' => '/^[0-9.]*$/u' ,
     'alphabet' => '/^[a-zA-Z]*$/i' ,
     'alphabet-space' => '/^[a-zA-Z\s]*$/i' ,

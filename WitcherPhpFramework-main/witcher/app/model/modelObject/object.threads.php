@@ -5,6 +5,7 @@ class threads extends \Model\Threads {
     private $exist = true;
 
     public $id;
+    public $thread_id;
     public $webdriver_session;
     public $link;
     public $account_name;
@@ -28,6 +29,7 @@ class threads extends \Model\Threads {
             $this->exist = false;
         }else{
             $this->id = $row['id'];
+            $this->thread_id = $row['thread_id'];
             $this->webdriver_session = $row['webdriver_session'];
             $this->link = $row['link'];
             $this->account_name= $row['account_name'];
@@ -49,6 +51,6 @@ class threads extends \Model\Threads {
 
     public function update($var_to_update, $new_value)
     {
-        $this->updateRow($var_to_update, $new_value, " WHERE id = '" . $this->id . "'");
+        $this->updateRow($var_to_update, $new_value, " WHERE thread_id = '" . $this->thread_id . "'");
     }
 }

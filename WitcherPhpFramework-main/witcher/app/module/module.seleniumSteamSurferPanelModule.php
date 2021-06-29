@@ -1,4 +1,5 @@
 <?php
+
 namespace Module\seleniumPayment;
 
 use Core\module;
@@ -12,7 +13,8 @@ use Module\cardnumberDiagnosis;
 use Module\gatewaySuitcaseAssignment;
 use Module\getGatewayFromTransaction;
 
-class seleniumSteamSurferPanelModule extends module {
+class seleniumSteamSurferPanelModule extends module
+{
 
     public static $thread;
 
@@ -25,7 +27,7 @@ class seleniumSteamSurferPanelModule extends module {
 
     public static $messages;
 
-    function __construct($id = "",$initialize = true)
+    function __construct($id = "", $initialize = true)
     {
         parent::$token = false;
         parent::__construct();
@@ -38,71 +40,6 @@ class seleniumSteamSurferPanelModule extends module {
         }
     }
 
-    public function makeNewThread(){
-        self::$webdriver = new \WebDriver(SELENIUM_SERVER, SELENIUM_SERVER_PORT);
-        self::$webdriver->connect("chrome");
-
-        if (!\WebDriver::$server_connection){
-            die("Connection failed with servers");
-        }
-
-        self::$webdriver->get(self::$thread->link);
-
-        self::$thread->update('status','0');
-
-        self::$webdriver->windowMaximize();
-        self::$thread->update('webdriver_session', serialize(self::$webdriver));
-
-        return self::$webdriver;
-    }
-
-
-    /**
-     * function invoiceCheck($invoice_key) :
-     *
-     * check kardane invoice ( witcher.com/invoice/check )
-     *
-     * @param $invoice_key
-     * @return
-     * @throws \Exception
-     */
-    public function invoiceCheck($invoice_key){
-        if (!isset($_POST['api_key'])){
-            throw new \Exception(json_encode(['status' => 0,'errorCode' => '101','errorDescription' => self::$messages['ErrorCode_101']]));
-        }
-        if ($invoice_key == "" or $invoice_key == null){
-            throw new \Exception(json_encode(['status' => 0,'errorCode' => '200','errorDescription' => self::$messages['ErrorCode_200']]));
-        }
-        $api_key = $_POST['api_key'];
-
-        $trans_info = new transaction($invoice_key);
-        if (!$trans_info->exists()){
-            throw new \Exception(json_encode(['status' => 0,'errorCode' => '200','errorDescription' => self::$messages['ErrorCode_200']]));
-        }
-
-        $getGatewayFromTransaction = new getGatewayFromTransaction($trans_info);
-        $gateway = $getGatewayFromTransaction->getGateway();
-
-        if(!$gateway->valid){
-            throw new \Exception(json_encode(['status' => 0,'errorCode' => '101','errorDescription' => self::$messages['ErrorCode_101']]));
-        }
-
-
-        $bridgeValidation_module = new bridgeValidation($trans_info->bridged_id,$trans_info->selenium_server_id,$gateway,$trans_info->amount);
-        $bridgeValidation_module->Validate();
-        $gateway = $bridgeValidation_module->getGateway();
-
-        self::$gateway = $gateway;
-
-        $invoiceCheck_module = new invoiceCheck($invoice_key);
-
-        $gatewayType = new gatewayTypes($gateway->type);
-
-        $method_name = $gatewayType->method_invoiceCheck;
-
-        return $invoiceCheck_module->$method_name();
-    }
-
     /**
      * function connection() :
      *
@@ -110,27 +47,66 @@ class seleniumSteamSurferPanelModule extends module {
      * @return self::$webdriver (OBJECT)
      * @throws \Exception
      * */
-    public function connection(){
+    public function connection()
+    {
         // agar be shaparak reside bashe  :
-        if (self::$trans_info->WAITASEC != null)
-        {
-            self::$webdriver = unserialize(self::$trans_info->WAITASEC);
+        if (self::$thread->webdriver_session != null) {
+            self::$webdriver = unserialize(self::$thread->webdriver_session);
             return self::$webdriver;
-        }
-        // agar avalin talash baraye residan be shaparak bashe :
-        elseif(self::$trans_info->WAITASEC == null)
-        {
-            // be module e connection vasl mishe :
-            $connection_module = new connection(self::$trans_info->invoice_key);
-
-            // esme function ro az $gatewayTypes ( table e gateway_types ) migire :
-            $method_name = self::$gatewayTypes->method_connection;
-
-            // connection ro bargharar mikone :
-            self::$webdriver = $connection_module->$method_name();
-            return self::$webdriver;
+        } // agar avalin talash baraye residan be shaparak bashe :
+        elseif (self::$thread->webdriver_session == null) {
+            $this->makeNewThread();
         }
         return null;
+    }
+
+    public function makeNewThread()
+    {
+        self::$webdriver = new \WebDriver(SELENIUM_SERVER, SELENIUM_SERVER_PORT);
+        self::$webdriver->connect("chrome");
+
+        if (!\WebDriver::$server_connection) {
+            die("Connection failed with servers");
+        }
+
+        self::$webdriver->get(self::$thread->link);
+
+        self::$thread->update('status', '0');
+
+        self::$webdriver->windowMaximize();
+        self::$thread->update('webdriver_session', serialize(self::$webdriver));
+
+        return self::$webdriver;
+    }
+
+    public function loginSteamAccount()
+    {
+        self::$webdriver->executeScript('document.getElementsByTagName("a")[0].click();', array());
+        self::$webdriver->executeScript("document.getElementById('input_username').value = '" . self::$thread->account_name . "';", array());
+        self::$webdriver->executeScript("document.getElementById('input_password').value = '" . self::$thread->password . "';", array());
+        self::$webdriver->executeScript("document.getElementById('login_btn_signin').getElementsByTagName('Button')[0].click();", array());
+
+        $steamGuard = self::$webdriver->findElementBy(\LocatorStrategy::xpath, "//input[@id='authcode']");
+        if ($steamGuard != null) {
+            // todo
+            self::$webdriver->executeScript("document.getElementById('authcode').value='asdf'", array());
+            self::$webdriver->executeScript("
+            var aTags = document.getElementsByTagName('div');
+            var searchText = 'Submit';
+            var found;
+
+            for (var i = 0; i < aTags.length; i++) {
+              if (aTags[i].textContent == searchText) {
+                found = aTags[i];
+                break;
+              }
+            }
+            
+            found.click();
+            ", array());
+        }
+
+
     }
 
     /**
@@ -140,15 +116,16 @@ class seleniumSteamSurferPanelModule extends module {
      * @return
      * @throws
      * */
-    public function submitPayButton(){
+    public function submitPayButton()
+    {
         if (!isset($_POST['card_number'])) {
             throw new \Exception(self::$messages['didnt_post_card_number']);
         }
-        $cardnumberDiagnosisModule = new cardnumberDiagnosis(self::$gateway->transaction_amountLimit_byCardNumber,$_POST['card_number'],self::$trans_info->amount);
-        if ($cardnumberDiagnosisModule->is_blocked()){
+        $cardnumberDiagnosisModule = new cardnumberDiagnosis(self::$gateway->transaction_amountLimit_byCardNumber, $_POST['card_number'], self::$trans_info->amount);
+        if ($cardnumberDiagnosisModule->is_blocked()) {
             throw new \Exception(self::$messages['cardNumber_is_blocked']);
         }
-        if ($cardnumberDiagnosisModule->is_limited()){
+        if ($cardnumberDiagnosisModule->is_limited()) {
             throw new \Exception(self::$messages['cardNumber_is_limited']);
         }
 
@@ -171,7 +148,8 @@ class seleniumSteamSurferPanelModule extends module {
      * @return
      * @throws \Exception
      * */
-    public function statusAssess(){
+    public function statusAssess()
+    {
         // module e statusAssess ro miare:
         $statusAssess_module = new statusAssess(self::$trans_info->invoice_key);
 
@@ -189,7 +167,8 @@ class seleniumSteamSurferPanelModule extends module {
      * @return
      * @throws \Exception
      * */
-    public function cancelPayment(){
+    public function cancelPayment()
+    {
         // module e cancelPayment ro miare:
         $cancel_module = new cancelPayment(self::$trans_info->invoice_key);
 
@@ -208,7 +187,8 @@ class seleniumSteamSurferPanelModule extends module {
      * @return
      * @throws \Exception
      * */
-    public function otpRequest(){
+    public function otpRequest()
+    {
         $otp_request = new otpRequest(self::$trans_info->invoice_key);
 
         $method_name = self::$gatewayTypes->method_otpRequest;
@@ -224,7 +204,8 @@ class seleniumSteamSurferPanelModule extends module {
      * @return
      * @throws \Exception
      * */
-    public function resetCaptcha(){
+    public function resetCaptcha()
+    {
         $reset_captcha = new resetCaptcha(self::$trans_info->invoice_key);
 
         $method_name = self::$gatewayTypes->method_resetCaptcha;
