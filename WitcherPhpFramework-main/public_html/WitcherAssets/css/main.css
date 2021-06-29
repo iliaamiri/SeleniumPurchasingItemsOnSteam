@@ -1,0 +1,29 @@
+body , html {
+    background-color: #2b4162;
+    background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%!important;
+    background-position: center;
+}
+
+.form-control {
+    background-color: #1b2838;
+}
+
+label {
+    color: white;
+}
+
+input{
+    color: white!important;
+    border-radius: 200px!important;
+}
+
+input:focus{
+    color: black!important;
+}
+
+a{
+    border-radius: 200px!important;
+}

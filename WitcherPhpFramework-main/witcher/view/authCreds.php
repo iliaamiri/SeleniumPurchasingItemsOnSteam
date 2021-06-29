@@ -7,28 +7,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="<?=HTTP_SERVER?>/WitcherAssets/fontawesome-free-5.15.3-web/css/all.css" rel="stylesheet"> <!--load all styles -->
+    <link rel="stylesheet" href="<?=HTTP_SERVER?>/WitcherAssets/css/main.css">
 </head>
-<style>
-    body {
-        background-color: #1b1f23;
-    }
-
-    .form-control {
-        background-color: #1b2838;
-    }
-
-    label {
-        color: #00B5D0;
-    }
-
-    input{
-        color: #00C2D0!important;
-    }
-
-    input:focus{
-        color: black!important;
-    }
-</style>
 
 <body>
 <div class="container">

@@ -7,32 +7,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="<?=HTTP_SERVER?>/WitcherAssets/fontawesome-free-5.15.3-web/css/all.css" rel="stylesheet"> <!--load all styles -->
+    <link rel="stylesheet" href="<?=HTTP_SERVER?>/WitcherAssets/css/main.css">
 </head>
-<style>
-    body {
-        background-color: #1b1f23;
-    }
-
-    .form-control {
-        background-color: #1b2838;
-    }
-
-    label {
-        color: #00B5D0;
-    }
-
-    input {
-        color: #00C2D0 !important;
-    }
-
-    input:focus {
-        color: black !important;
-    }
-</style>
 
 <body>
 <div class="container-fluid" style="color: white">
-    <div class="row" style="margin-top: 20px">
+    <div class="row justify-content-center text-center" style="margin-top: 20px;">
         <div class="col-md-3">
             <div class="row justify-content-md-center">
                 <div class="panel-group" id="accordion">
@@ -68,6 +48,10 @@
                                         <td>5</td>
                                     </tr>
                                     <tr>
+                                        <td style="color: #17a2b8;"><b>Item's Name:</b></td>
+                                        <td>AK47</td>
+                                    </tr>
+                                    <tr>
                                         <td style="color: #17a2b8;"><b>Float - Minimum:</b></td>
                                         <td>0.00000001</td>
                                     </tr>
@@ -91,57 +75,93 @@
                 </div>
 
             </div>
-            <hr>
-            <a href="<?= HTTP_SERVER ?>/selenium/cancel/{@id}" class="btn btn-lg btn-danger"
-               style="width: 100%;border-radius: 200px">Cancel</a>
         </div>
         <div class="col-md-9">
-            <div class="row" >
-                <div class="col-md-6 justify-content-md-center text-center"><h1 style="border:1px solid white;border-radius: 200px;">Refresh In: 00:60</h1></div>
-                <div class="col-md-6 justify-content-md-center text-center"><h1 style="border:1px solid white;border-radius: 200px;">Processed 1000 out of 4000 items</h1>
+            <div class="row justify-content-center">
+                <div class="col-auto justify-content-md-center">
+                    <h3 style="text-align: center;color: white; border:1px solid white;border-radius: 200px;padding: 15px 20px 15px 20px;"><i style="color: white" class="fas fa-angle-double-down"></i><b> Items that are Found and Purchased </b><i style="color: white" class="fas fa-angle-double-down"></i></h3>
                 </div>
+            </div>
+            <div class="row justify-content-center text-center">
+                <div class="col-md-8 ">
+                    <table class="table justify-content-md-center text-center">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Float</th>
+                            <th scope="col">Paint Seed</th>
+                            <th scope="col">Price</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>0.93972074985504</td>
+                            <td>181</td>
+                            <td>₹ 2.25</td>
+                            <td><i class="far fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>0.70411992073059</td>
+                            <td>485</td>
+                            <td>₹ 2.35</td>
+                            <td><i class="far fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>0.81528592109680</td>
+                            <td>866</td>
+                            <td>₹ 2.36</td>
+                            <td><i class="far fa-check-circle"></i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
             <hr>
-            <div class="row">
-                <div class="col-md-12 justify-content-md-center">
-                    <h2 style="text-align: center;color: #28a745; border:1px solid #28a745;border-radius: 200px;"><i style="color: white" class="fas fa-angle-double-down"></i> Items that are Found and Purchased <i style="color: white" class="fas fa-angle-double-down"></i></h2>
+            <div class="row justify-content-md-center">
+            <div class="col-auto justify-content-md-center text-center"><h1 style="font-size:20px;padding: 5px 20px 5px 20px;border:1px solid white;border-radius: 200px;">00:60</h1></div>
+
+            </div>
+            <div class="row justify-content-md-center" >
+                <div class="col-auto justify-content-md-center text-center"><h1 style="font-size:17px;padding: 10px 20px 10px 20px;border:1px solid white;border-radius: 200px;">Processed 1000 out of 4000 items</h1>
                 </div>
             </div>
-            <div class="row">
-                <table class="table">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Float</th>
-                        <th scope="col">Paint Seed</th>
-                        <th scope="col">Price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>0.93972074985504</td>
-                        <td>181</td>
-                        <td>₹ 2.25</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>0.70411992073059</td>
-                        <td>485</td>
-                        <td>₹ 2.35</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>0.81528592109680</td>
-                        <td>866</td>
-                        <td>₹ 2.36</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <a href="<?= HTTP_SERVER ?>/selenium/cancel/{@id}" class="btn btn-lg btn-danger"
+               style="width: 30%;border-radius: 200px; border-color: #32383e; margin-bottom: 30px;">Cancel</a>
+        </div>
+    </div>
+
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">Open Modal</button>
+    <!-- Modal -->
+    <div class="modal fade show" id="myModal" role="dialog" style="display: none;background-color:rgba(0,0,0,0.8);">
+        <div class="modal-dialog" >
+
+            <!-- Modal content-->
+            <div class="modal-content"style="background-color: #000000;
+background-image: linear-gradient(147deg, #000000 0%, #04619f 74%);!important; border: 2px solid white!important; border-radius: 30px; padding: 60px;
+margin-top:200px;">
+                <div class="modal-header" style="border: none">
+                </div>
+                <div class="modal-body" style="border: none;">
+                    <div class="form-group" style="text-align: center">
+                        <label for="exampleFormControlInput1" style="color: white"><h3>Security Code</h3></label>
+                        <input autofocus type="text" class="form-control text-uppercase" id="exampleFormControlInput1" style="text-align: center; border-radius:200px; font-size: 20px;" value="">
+                        <p style="margin-top: 20px;"><u>You have ONLY ONE CHANCE!</u></p>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-md-center" style="border: none;">
+                    <button type="button" class="btn btn-light btn-lg" style="color:black;border-radius: 200px;padding: 5px 70px 5px 70px;">Submit</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"

@@ -82,10 +82,13 @@ class seleniumSteamSurferPanelModule extends module
     public function loginSteamAccount()
     {
         self::$webdriver->executeScript('document.getElementsByTagName("a")[0].click();', array());
+        sleep(2);
         self::$webdriver->executeScript("document.getElementById('input_username').value = '" . self::$thread->account_name . "';", array());
         self::$webdriver->executeScript("document.getElementById('input_password').value = '" . self::$thread->password . "';", array());
         self::$webdriver->executeScript("document.getElementById('login_btn_signin').getElementsByTagName('Button')[0].click();", array());
+    }
 
+    public function checkSteamGuard(){
         $steamGuard = self::$webdriver->findElementBy(\LocatorStrategy::xpath, "//input[@id='authcode']");
         if ($steamGuard != null) {
             // todo
@@ -105,8 +108,6 @@ class seleniumSteamSurferPanelModule extends module
             found.click();
             ", array());
         }
-
-
     }
 
     /**

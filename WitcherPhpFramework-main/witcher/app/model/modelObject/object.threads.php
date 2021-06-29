@@ -10,6 +10,7 @@ class threads extends \Model\Threads {
     public $link;
     public $account_name;
     public $password;
+    public $item_name;
     public $float_min;
     public $float_max;
     public $paint_seed;
@@ -34,6 +35,7 @@ class threads extends \Model\Threads {
             $this->link = $row['link'];
             $this->account_name= $row['account_name'];
             $this->password = $row['password'];
+            $this->item_name = $row['item_name'];
             $this->float_min = $row['float_min'];
             $this->float_max = $row['float_max'];
             $this->paint_seed = $row['paint_seed'];

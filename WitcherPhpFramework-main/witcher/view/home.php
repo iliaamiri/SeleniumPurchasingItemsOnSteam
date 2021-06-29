@@ -6,33 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?=HTTP_SERVER?>/WitcherAssets/css/main.css">
 </head>
-<style>
-    body {
-        background-color: #1b1f23;
-    }
-
-    .form-control {
-        background-color: #1b2838;
-    }
-
-    label {
-        color: #00B5D0;
-    }
-
-    input{
-        color: #00C2D0!important;
-    }
-
-    input:focus{
-        color: black!important;
-    }
-</style>
 
 <body>
 <div class="container">
     <form target="_blank" method="POST" action="<?=HTTP_SERVER?>/selenium/initiate">
-        <h1 style="color: #58a6ff">Steam Surfer Bot Panel</h1>
+        <h1 style="color: white">Steam Surfer Bot Panel</h1>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -58,7 +38,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="exampleFormControlInput1"></label>
-                    <a href="<?=HTTP_SERVER?>/auth_credentials/manage" class="btn btn-primary form-control">Manage</a>
+                    <a href="<?=HTTP_SERVER?>/auth_credentials/manage" class="btn btn-primary form-control" style="border-radius: 200px;">Manage</a>
                 </div>
             </div>
         </div>
@@ -94,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <input type="submit" class="btn btn-primary btn-lg" id="FormButtonRunIt" value="Run It" style="color: white!important;">
+        <input type="submit" class="btn btn-primary btn-lg" id="FormButtonRunIt" value="Run It" style="color: white!important;padding: 7px 30px 7px 30px;">
     </form>
 </div>
 

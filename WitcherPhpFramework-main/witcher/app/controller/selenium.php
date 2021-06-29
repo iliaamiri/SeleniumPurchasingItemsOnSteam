@@ -62,9 +62,21 @@ class selenium extends controller {
     }
 
     public function run($thread_id){
+        $data = [];
+
         $seleniumSteamSurferPanelModule = new seleniumSteamSurferPanelModule($thread_id);
         $seleniumSteamSurferPanelModule->connection();
 
+        $seleniumSteamSurferPanelModule->loginSteamAccount();
+
+        $steamGuard = seleniumSteamSurferPanelModule::$webdriver->findElementBy(\LocatorStrategy::xpath, "//input[@id='authcode']");
+
+        $data['SteamGuardCheck'] = ($steamGuard != null);
+
+
+
+
+        parent::setData($data);
         parent::setViews(['run.php']);
         parent::Show();
     }
