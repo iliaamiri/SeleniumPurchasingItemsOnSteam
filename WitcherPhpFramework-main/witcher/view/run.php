@@ -8,8 +8,14 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="<?=HTTP_SERVER?>/WitcherAssets/fontawesome-free-5.15.3-web/css/all.css" rel="stylesheet"> <!--load all styles -->
     <link rel="stylesheet" href="<?=HTTP_SERVER?>/WitcherAssets/css/main.css">
+    <script>
+        <?php
+        if (\Core\controller::$data['LoginFailedCheck']){
+            echo 'alert("'. \Core\controller::$data['LoginFailedError'] .'");';
+        }
+        ?>
+    </script>
 </head>
-
 <body>
 <div class="container-fluid" style="color: white">
     <div class="row justify-content-center text-center" style="margin-top: 20px;">
@@ -37,35 +43,35 @@
                                     </tr>
                                     <tr>
                                         <td style="color: #17a2b8;"><b>Account Name:</b></td>
-                                        <td>asdfjl;kad</td>
+                                        <td><?=\Core\controller::$data['ThreadInfo']->account_name?></td>
                                     </tr>
                                     <tr>
                                         <td style="color: #17a2b8;"><b>Password:</b></td>
-                                        <td>password</td>
+                                        <td><?=\Core\controller::$data['ThreadInfo']->password?></td>
                                     </tr>
                                     <tr>
                                         <td style="color: #17a2b8;"><b>Maximum Purchases of Founded Items:</b></td>
-                                        <td>5</td>
+                                        <td><?=\Core\controller::$data['ThreadInfo']->maximum_attempts_to_purchase?></td>
                                     </tr>
                                     <tr>
                                         <td style="color: #17a2b8;"><b>Item's Name:</b></td>
-                                        <td>AK47</td>
+                                        <td><?=\Core\controller::$data['ThreadInfo']->item_name?></td>
                                     </tr>
                                     <tr>
                                         <td style="color: #17a2b8;"><b>Float - Minimum:</b></td>
-                                        <td>0.00000001</td>
+                                        <td><?=\Core\controller::$data['ThreadInfo']->float_min?></td>
                                     </tr>
                                     <tr>
                                         <td style="color: #17a2b8;"><b>Float - Maximum:</b></td>
-                                        <td>0.0000005</td>
+                                        <td><?=\Core\controller::$data['ThreadInfo']->float_max?></td>
                                     </tr>
                                     <tr>
                                         <td style="color: #17a2b8;"><b>Refresh in:</b></td>
-                                        <td>60 seconds</td>
+                                        <td><?=\Core\controller::$data['ThreadInfo']->refresh_in?> seconds</td>
                                     </tr>
                                     <tr>
                                         <td style="color: #17a2b8;"><b>Paint Seed:</b></td>
-                                        <td>300</td>
+                                        <td><?=\Core\controller::$data['ThreadInfo']->paint_seed?></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -138,7 +144,7 @@
     <!-- Trigger the modal with a button -->
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">Open Modal</button>
     <!-- Modal -->
-    <div class="modal fade show" id="myModal" role="dialog" style="display: none;background-color:rgba(0,0,0,0.8);">
+    <div class="modal fade  <?= (\Core\controller::$data['SteamGuardCheck']) ? "show" : ""?>" id="myModal" role="dialog" style="display: <?= (\Core\controller::$data['SteamGuardCheck']) ? "block" : "none"?>;background-color:rgba(0,0,0,0.8);">
         <div class="modal-dialog" >
 
             <!-- Modal content-->
@@ -150,12 +156,12 @@ margin-top:200px;">
                 <div class="modal-body" style="border: none;">
                     <div class="form-group" style="text-align: center">
                         <label for="exampleFormControlInput1" style="color: white"><h3>Security Code</h3></label>
-                        <input autofocus type="text" class="form-control text-uppercase" id="exampleFormControlInput1" style="text-align: center; border-radius:200px; font-size: 20px;" value="">
+                        <input required autofocus type="text" name="AuthCode" class="form-control text-uppercase" id="exampleFormControlInput1" style="text-align: center; border-radius:200px; font-size: 20px;" value="">
                         <p style="margin-top: 20px;"><u>You have ONLY ONE CHANCE!</u></p>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-md-center" style="border: none;">
-                    <button type="button" class="btn btn-light btn-lg" style="color:black;border-radius: 200px;padding: 5px 70px 5px 70px;">Submit</button>
+                    <button type="button" id="ButtonAuthCodeSubmit" class="btn btn-light btn-lg" style="color:black;border-radius: 200px;padding: 5px 70px 5px 70px;">Submit</button>
                 </div>
             </div>
         </div>
@@ -175,6 +181,24 @@ margin-top:200px;">
     $('.btn-danger').click(function () {
         return window.confirm("Are you sure?");
     });
+
+    $('#ButtonAuthCodeSubmit').click(function () {
+        var InputValue = $('div[name="AuthCode"]').val();
+
+        $.ajax({
+            type: "POST",
+            url: "<?=HTTP_SERVER?>/selenium/api/steam-guard-submit",
+            data: {
+                thread_id: <?=\Core\controller::$data['ThreadInfo']->thread_id?>,
+                AuthCode: InputValue
+            },
+            success: function (resultData) {
+console.log(resultData);
+            },
+            dataType: "json"
+        });
+    });
+
 </script>
 </body>
 </html>

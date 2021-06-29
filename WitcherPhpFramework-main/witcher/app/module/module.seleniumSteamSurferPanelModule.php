@@ -49,14 +49,20 @@ class seleniumSteamSurferPanelModule extends module
      * */
     public function connection()
     {
+
         // agar be shaparak reside bashe  :
         if (self::$thread->webdriver_session != null) {
             self::$webdriver = unserialize(self::$thread->webdriver_session);
-            return self::$webdriver;
-        } // agar avalin talash baraye residan be shaparak bashe :
-        elseif (self::$thread->webdriver_session == null) {
+            if (property_exists(self::$webdriver->dismissAlert(), "error") AND self::$webdriver->dismissAlert()->error == "invalid session id"){
+                $this->makeNewThread();
+            }else{
+                return self::$webdriver;
+            }
+        }
+        elseif (self::$thread->webdriver_session == null){
             $this->makeNewThread();
         }
+
         return null;
     }
 
@@ -88,12 +94,22 @@ class seleniumSteamSurferPanelModule extends module
         self::$webdriver->executeScript("document.getElementById('login_btn_signin').getElementsByTagName('Button')[0].click();", array());
     }
 
-    public function checkSteamGuard(){
-        $steamGuard = self::$webdriver->findElementBy(\LocatorStrategy::xpath, "//input[@id='authcode']");
-        if ($steamGuard != null) {
-            // todo
-            self::$webdriver->executeScript("document.getElementById('authcode').value='asdf'", array());
-            self::$webdriver->executeScript("
+    public function submitSteamGuard(){
+        try {
+
+            $response = ['status' => 0, 'msg' => NULL];
+
+            if (!isset($_POST['AuthCode'])){
+                throw new \Exception('Auth Code is invalid');
+            }
+
+            $steamGuard = self::$webdriver->findElementBy(\LocatorStrategy::xpath, "//input[@id='authcode']");
+var_dump($_POST);
+            var_dump($steamGuard);
+            die();
+            if ($steamGuard != null) {
+                self::$webdriver->executeScript("document.getElementById('authcode').value='". $_POST['AuthCode'] ."'", array());
+                self::$webdriver->executeScript("
             var aTags = document.getElementsByTagName('div');
             var searchText = 'Submit';
             var found;
@@ -107,7 +123,13 @@ class seleniumSteamSurferPanelModule extends module
             
             found.click();
             ", array());
+            }
+
+            $response['status'] = 1;
+        }catch (\Exception $exception){
+            $response['msg'] = $exception->getMessage();
         }
+        return $response;
     }
 
     /**

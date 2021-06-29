@@ -26,13 +26,13 @@
                 <div class="form-group">
                     <label for="FormInputAccountName">Account Name *</label>
                     <input type="text" class="form-control" id="FormInputAccountName"
-                           placeholder="Your Account Name" name="account_name" required>
+                           placeholder="Your Account Name" value="<?=\Core\controller::$data['DefaultAuthCreds']['account_name']?>" name="account_name" required>
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="form-group">
                     <label for="FormInputPassword">Password *</label>
-                    <input type="text" class="form-control" name="password" id="FormInputPassword" placeholder="Your Password" required>
+                    <input type="text" class="form-control" value="<?=\Core\controller::$data['DefaultAuthCreds']['password']?>" name="password" id="FormInputPassword" placeholder="Your Password" required>
                 </div>
             </div>
             <div class="col-md-2">

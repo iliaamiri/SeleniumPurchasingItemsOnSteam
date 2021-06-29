@@ -69,12 +69,33 @@ class selenium extends controller {
 
         $seleniumSteamSurferPanelModule->loginSteamAccount();
 
-        $steamGuard = seleniumSteamSurferPanelModule::$webdriver->findElementBy(\LocatorStrategy::xpath, "//input[@id='authcode']");
+        $steamGuard = seleniumSteamSurferPanelModule::$webdriver->findElementBy(\LocatorStrategy::xpath, "//div[@class='login_modal loginAuthCodeModal']");
 
-        $data['SteamGuardCheck'] = ($steamGuard != null);
+        $data['SteamGuardCheck'] = false;
+        if ($steamGuard){
 
+            $steamGuardInputDisplay = $steamGuard->getAttribute('style');
 
+            if ($steamGuardInputDisplay != "display: none;"){
+                $data['SteamGuardCheck'] = true;
+            }
+        }
 
+        sleep(2);
+
+        $data['LoginFailedCheck'] = false;
+        $data['LoginFailedError'] = "";
+        $login_error = seleniumSteamSurferPanelModule::$webdriver->findElementBy(\LocatorStrategy::xpath, "//div[@id='error_display']");
+        if ($login_error){
+            $login_errorDisplay = $login_error->getAttribute('style');
+
+            if ($login_errorDisplay != "display: none;"){
+                $data['LoginFailedCheck'] = true;
+                $data['LoginFailedError'] = "Login Failed. Steam's Error Message: " . $login_error->getText();
+            }
+        }
+
+        $data['ThreadInfo'] = seleniumSteamSurferPanelModule::$thread;
 
         parent::setData($data);
         parent::setViews(['run.php']);

@@ -12,9 +12,10 @@ return [
     '/selenium/run/{@id}' => ['selenium', 'run'],
     '/selenium/cancel/{@id}' => ['selenium', 'cancel'],
 
+    '/selenium/api/steam-guard-submit' => ['seleniumAjax', 'submitSteamGuard'],
+
 
     '/lab' => ['lab','start',[],''],
 
     '/{@code}' => ['error_handling','index'], // by changing 404 path you have to change it in autoloader.php [line 142]
-
 ];

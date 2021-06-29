@@ -32,6 +32,13 @@ class SteamAuthCreds extends model
         return $response[0];
     }
 
+    public function findRowByDefault()
+    {
+        $sql = parent::$db->mdb_query("SELECT * FROM witcher_steam_auth_credentials WHERE 	default_status = 1", 1);
+        $response = $sql->fetchAll(\PDO::FETCH_ASSOC);
+        return $response[0];
+    }
+
     public function All(){
         $sql = parent::$db->mdb_query("SELECT * FROM witcher_steam_auth_credentials", 1);
         $response = $sql->fetchAll(\PDO::FETCH_ASSOC);

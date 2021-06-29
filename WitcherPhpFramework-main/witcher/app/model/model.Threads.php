@@ -18,6 +18,7 @@ class Threads extends model
         if (!$preg->push($account_name,'username') OR !$preg->push($password,'password') OR !$preg->push_url($link) OR !$preg->push($maximum_purchases_of_founded_items, 'number') OR !$preg->push($paint_seed, 'number') OR !$preg->push($refresh_in, 'number') OR !$preg->push($float_min, 'double') OR !$preg->push($float_max, 'double')){
             return false;
         }
+        $refresh_in = ($refresh_in == 0) ? 60 : $refresh_in;
         $sql = parent::$db->mdb_query("INSERT INTO witcher_threads (thread_id, link, account_name,password,float_min,float_max,paint_seed,maximum_attempts_to_purchase,refresh_in) VALUES (".$thread_id.",'".$link."', '".$account_name."','".$password."',".$maximum_purchases_of_founded_items.",".floatval($float_min).",".floatval($float_max).",".$paint_seed.", ".$refresh_in.")", 0);
         $sql->execute();
         return true;
