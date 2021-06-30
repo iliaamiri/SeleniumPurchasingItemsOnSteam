@@ -65,9 +65,16 @@ class selenium extends controller {
         $data = [];
 
         $seleniumSteamSurferPanelModule = new seleniumSteamSurferPanelModule($thread_id);
+
+        if (seleniumSteamSurferPanelModule::$thread->status == '-2'){
+            parent::setViews(['cancelled.php']);
+            parent::Show();
+            exit();
+        }
+
         $seleniumSteamSurferPanelModule->connection();
 
-        $seleniumSteamSurferPanelModule->loginSteamAccount();
+        //$seleniumSteamSurferPanelModule->loginSteamAccount();
 
         $steamGuard = seleniumSteamSurferPanelModule::$webdriver->findElementBy(\LocatorStrategy::xpath, "//div[@class='login_modal loginAuthCodeModal']");
 
@@ -81,7 +88,7 @@ class selenium extends controller {
             }
         }
 
-        sleep(2);
+        sleep(3);
 
         $data['LoginFailedCheck'] = false;
         $data['LoginFailedError'] = "";
@@ -102,7 +109,20 @@ class selenium extends controller {
         parent::Show();
     }
 
-    public function cancel($id){
+    public function cancel($thread_id){
+        $seleniumSteamSurferPanelModule = new seleniumSteamSurferPanelModule($thread_id);
 
+        if (seleniumSteamSurferPanelModule::$thread->status == '-2'){
+            parent::setViews(['cancelled.php']);
+            parent::Show();
+            exit();
+        }
+        $seleniumSteamSurferPanelModule->connection();
+
+        seleniumSteamSurferPanelModule::$thread->update('status', '-2');
+
+        seleniumSteamSurferPanelModule::$webdriver->close();
+        parent::setViews(['cancelled.php']);
+        parent::Show();
     }
 }

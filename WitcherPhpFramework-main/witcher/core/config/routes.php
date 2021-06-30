@@ -13,6 +13,7 @@ return [
     '/selenium/cancel/{@id}' => ['selenium', 'cancel'],
 
     '/selenium/api/steam-guard-submit' => ['seleniumAjax', 'submitSteamGuard'],
+    '/selenium/api/process' => ['seleniumAjax', 'process'],
 
 
     '/lab' => ['lab','start',[],''],

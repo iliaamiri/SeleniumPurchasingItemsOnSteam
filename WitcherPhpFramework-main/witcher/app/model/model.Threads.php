@@ -52,7 +52,6 @@ class Threads extends model
     public function deleteById($id)
     {
         $sql = parent::$db->mdb_query("DELETE FROM witcher_threads WHERE thread_id = :id", 0);
-        $sql = parent::$db->mdb_query("DELETE FROM witcher_threads WHERE thread_id = :id", 0);
         $sql->execute(array(':id' => $id));
         return true;
     }

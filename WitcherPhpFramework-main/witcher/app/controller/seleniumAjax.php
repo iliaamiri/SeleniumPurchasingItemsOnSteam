@@ -34,4 +34,9 @@ class seleniumAjax extends controller {
         $this->response = $this->module->submitSteamGuard();
         $this->response_the_result();
     }
+
+    public function process(){
+        $this->response = $this->module->process();
+        $this->response_the_result();
+    }
 }
