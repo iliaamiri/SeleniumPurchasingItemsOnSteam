@@ -74,19 +74,11 @@ class selenium extends controller {
 
         $seleniumSteamSurferPanelModule->connection();
 
-        //$seleniumSteamSurferPanelModule->loginSteamAccount();
+        $seleniumSteamSurferPanelModule->loginSteamAccount();
 
-        $steamGuard = seleniumSteamSurferPanelModule::$webdriver->findElementBy(\LocatorStrategy::xpath, "//div[@class='login_modal loginAuthCodeModal']");
+        sleep(2);
 
-        $data['SteamGuardCheck'] = false;
-        if ($steamGuard){
-
-            $steamGuardInputDisplay = $steamGuard->getAttribute('style');
-
-            if ($steamGuardInputDisplay != "display: none;"){
-                $data['SteamGuardCheck'] = true;
-            }
-        }
+        $data['SteamGuardCheck'] = $seleniumSteamSurferPanelModule->steamGuardCheck();
 
         sleep(3);
 

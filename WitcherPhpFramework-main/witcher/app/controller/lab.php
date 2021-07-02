@@ -17,6 +17,11 @@ class lab extends controller
 {
     public function start()
     {
+        $result =  "[{\"float\":\"0.31792801618576\",\"paint_seed\":\"493\",\"price\":\"\\n\\t\\t\\t\\t\\t\\t₹ 1,297.54\\t\\t\\t\\t\\t\"}]";
+        var_dump( json_decode($result, true));
+
+        die();
+
         $webdriver = new \WebDriver(SELENIUM_SERVER, SELENIUM_SERVER_PORT);
         $webdriver->connect("chrome");
 
@@ -85,7 +90,7 @@ class lab extends controller
     
                 var instantButton = elements[i].getElementsByClassName('instantBuy');
             }
-            document.getElementById('searchResults_btn_next').click();
+           
             console.clear();
         }
     

@@ -107,7 +107,7 @@
                             <th scope="col"></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody_results">
                         <tr>
                             <th scope="row">1</th>
                             <td>0.93972074985504</td>
@@ -170,7 +170,7 @@ margin-top:200px;">
                     <div class="form-group" style="text-align: center">
                         <label for="exampleFormControlInput1" style="color: white"><h3>Security Code</h3></label>
                         <input required autofocus type="text" name="AuthCode" class="form-control text-uppercase"
-                               id="exampleFormControlInput1"
+                               id="AuthCode"
                                style="text-align: center; border-radius:200px; font-size: 20px;" value="">
                         <p style="margin-top: 20px;"><u>You have ONLY ONE CHANCE!</u></p>
                     </div>
@@ -208,13 +208,14 @@ margin-top:200px;">
     });
 
     $('#ButtonAuthCodeSubmit').click(function () {
-        var InputValue = $('div[name="AuthCode"]').val();
+        var InputValue = $('#AuthCode').val();
+console.log(InputValue);
 
         var e = {
             thread_id: <?=\Core\controller::$data['ThreadInfo']->thread_id?>,
             AuthCode: InputValue
         };
-        $.post(<?=HTTP_SERVER?> + "/selenium/api/steam-guard-submit", e, function (e, n) {
+        $.post("<?=HTTP_SERVER?>" + "/selenium/api/steam-guard-submit", e, function (e, n) {
             console.log(e);
             result = JSON.parse(e);
             if (result.status == 1){
@@ -223,18 +224,30 @@ margin-top:200px;">
                 alert(result.msg);
             }
         });
+
     });
+
+    var counter = 1;
 
     setInterval(function(){
         var e = {
             thread_id: <?=\Core\controller::$data['ThreadInfo']->thread_id?>,
 
         };
-        $.post(<?=HTTP_SERVER?> + "/selenium/api/process", e, function (e, n) {
+        $.post("<?=HTTP_SERVER?>" + "/selenium/api/process", e, function (e, n) {
             console.log(e);
             result = JSON.parse(e);
             if (result.status == 1){
-
+                var results = result.results;
+                $.each(results, function (index, value) {
+                    $("#tbody_results").append("<tr>\n" +
+                        "                            <th scope=\"row\">" + counter++ + "</th>\n" +
+                        "                            <td>" + value.float + "</td>\n" +
+                        "                            <td>" + value.paint_seed + "</td>\n" +
+                        "                            <td>" + value.price + "</td>\n" +
+                        "                            <td><i class=\"far fa-check-circle\"></i></td>\n" +
+                        "                        </tr>");
+                });
             }else{
                 alert(result.msg);
             }

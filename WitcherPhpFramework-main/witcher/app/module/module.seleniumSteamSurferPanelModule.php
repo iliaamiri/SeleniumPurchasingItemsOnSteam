@@ -87,11 +87,33 @@ class seleniumSteamSurferPanelModule extends module
 
     public function loginSteamAccount()
     {
-        self::$webdriver->executeScript('document.getElementsByTagName("a")[0].click();', array());
-        sleep(2);
-        self::$webdriver->executeScript("document.getElementById('input_username').value = '" . self::$thread->account_name . "';", array());
-        self::$webdriver->executeScript("document.getElementById('input_password').value = '" . self::$thread->password . "';", array());
-        self::$webdriver->executeScript("document.getElementById('login_btn_signin').getElementsByTagName('Button')[0].click();", array());
+        $steamLoginCheck = self::$webdriver->findElementBy(\LocatorStrategy::xpath, "//div[@class='header_installsteam_btn header_installsteam_btn_green']");
+        if ($steamLoginCheck){
+
+            if ($this->steamGuardCheck()){
+                return false;
+            }
+
+            self::$webdriver->executeScript('document.getElementsByTagName("a")[0].click();', array());
+            sleep(2);
+            self::$webdriver->executeScript("document.getElementById('input_username').value = '" . self::$thread->account_name . "';", array());
+            self::$webdriver->executeScript("document.getElementById('input_password').value = '" . self::$thread->password . "';", array());
+            self::$webdriver->executeScript("document.getElementById('login_btn_signin').getElementsByTagName('Button')[0].click();", array());
+        }
+    }
+
+    public function steamGuardCheck(){
+        $steamGuard = seleniumSteamSurferPanelModule::$webdriver->findElementBy(\LocatorStrategy::xpath, "//div[@class='login_modal loginAuthCodeModal']");
+
+        if ($steamGuard){
+
+            $steamGuardInputDisplay = $steamGuard->getCssProperty('display');
+
+            if ($steamGuardInputDisplay != "none"){
+                return true;
+            }
+        }
+        return false;
     }
 
     public function submitSteamGuard(){
@@ -104,11 +126,12 @@ class seleniumSteamSurferPanelModule extends module
             }
 
             $steamGuard = self::$webdriver->findElementBy(\LocatorStrategy::xpath, "//input[@id='authcode']");
-var_dump($_POST);
-            var_dump($steamGuard);
-            die();
+
+
+
             if ($steamGuard != null) {
                 self::$webdriver->executeScript("document.getElementById('authcode').value='". $_POST['AuthCode'] ."'", array());
+
                 self::$webdriver->executeScript("
             var aTags = document.getElementsByTagName('div');
             var searchText = 'Submit';
@@ -117,11 +140,12 @@ var_dump($_POST);
             for (var i = 0; i < aTags.length; i++) {
               if (aTags[i].textContent == searchText) {
                 found = aTags[i];
+                found.click();
                 break;
               }
             }
             
-            found.click();
+         
             ", array());
             }
 
@@ -133,8 +157,10 @@ var_dump($_POST);
     }
 
     public function process(){
+        try {
+            $response = ['status' => 0, 'msg' => NULL, 'results' => []];
 
-        var_dump(self::$webdriver->executeScript("
+            self::$webdriver->executeScript("
        function wait(ms) 
        {
             var d = new Date();
@@ -190,7 +216,7 @@ var_dump($_POST);
     
                 var instantButton = elements[i].getElementsByClassName('instantBuy');
             }
-            document.getElementById('searchResults_btn_next').click();
+            
             console.clear();
         }
     
@@ -207,7 +233,38 @@ var_dump($_POST);
         
         RunIt_Witcher_TEST();
         SaveResultsInAnElement();
-        ", array()));
+        ", array());
+
+            sleep(1);
+            $saved_results = self::$webdriver->findElementBy(\LocatorStrategy::xpath, "//p[@id='Witcher_Saved_Results']");
+            if ($saved_results){
+                $saved_results_raw = $saved_results->getText();
+                $saved_results_raw = str_replace(array("\\t", "\\n", "\n", "\t", "₹"),"",$saved_results_raw);
+                $saved_results = json_decode($saved_results_raw, true);
+            }else{
+                $saved_results = [];
+            }
+
+            self::$webdriver->executeScript("document.getElementById('searchResults_btn_next').click();", array());
+
+         /*   $result =  '[{"float":"0.31792801618576","paint_seed":"493","price":"\\n\\t\\t\\t\\t\\t\\t₹ 1,297.54\\t\\t\\t\\t\\t"}]';
+            $result = str_replace(array("\\t", "\\n", "\n", "\t", "₹"),"",$result);
+
+            die($result);
+            $result = json_decode($result,true);
+            $saved_results =
+                $result
+            ;
+
+die(json_encode($result));
+         */
+
+            $response['status'] = 1;
+            $response['results'] = $saved_results;
+        }catch (\Exception $exception){
+            $response['msg'] = $exception->getMessage();
+        }
+        return $response;
     }
 
 }
