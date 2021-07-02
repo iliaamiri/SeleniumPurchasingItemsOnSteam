@@ -1,0 +1,12 @@
+I wanted a custom built script/bot which will buy items off a website which has video game items (skins) using balance i already have on the site
+unlike e com sites like amazon, no payment gateway is there and there is no need to fill info. a simple 2 click action to buy the item
+
+1. A simple web panel of the bot to put the inputs, link, maximum purchases of items, storing username and password on bot's database
+
+2. the process will be: First, fetching the link that has been given to the bot. Next, finding the items using the inputs. Then attempt to purchase one by one (in case it was more than one).
+
+
+EXTENSIONS NEEDED: 
+https://www.freelancer.com/users/l.php?url=https:%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fcsgofloat-market-checker%2Fjjicbefpemnphinccgikpdaagjebbnhg%3Fhl%3Den&sig=edc858c948188f824723fdecc660d2dd3a525c2cbc55505c15633c9ce3320e2b
+
+https://www.freelancer.com/users/l.php?url=https:%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fcsgo-trader-steam-trading%2Fkaibcgikagnkfgjnibflebpldakfhfih&sig=407f60a52044e9c797c20187ddf9431d650331a7d69ccda68db4365f14ea6ab2
